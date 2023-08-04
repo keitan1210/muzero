@@ -1,0 +1,53 @@
+{
+  "extensions.ignoreRecommendations":false,
+  "python.envFile":"${workspaceFolder}/.env",
+  
+  "python.linting.enabled":true,
+  "python.linting.pylintEnabled":false,
+  "python.linting.flake8Enabled":true,
+  "python.linting.lintOnSave":true,
+  "python.linting.flake8Args":[
+    "--max-line-length=119",
+    "--ignore=E203",
+  ],
+  
+  "python.formatting.provider":"black",
+  "[python]":{
+    "editor.formatOnSave":true,
+    "editor.codeActionsOnSave":{
+      "source.organizeImports":true
+    }
+  },
+  "python.formatting.blackArgs":[
+    "--line-length=119",
+  ],
+  
+  "[lua]":{
+    "editor.formatOnSave":true
+  },
+  "[markdown]":{
+    "editor.formatOnSave":true
+  },
+  "[yaml]":{
+    "editor.formatOnSave":true,
+    "editor.insertSpaces":true,
+    "editor.tabSize":2,
+    "editor.autoIndent":"advanced"
+  },
+  
+  "python.analysis.typeCheckingMode":"basic",
+
+  "python.testing.pytestArgs":[
+    "tests"
+  ],
+  "python.testing.unittestEnabled":false,
+  "python.testing.pytestEnabled":true,
+
+  "plantuml.exportFormat":"png",
+  "plantuml.exportOutDir":".",
+  "plantuml.exportSubFolder":false,
+
+  "files.associations":{
+    "dockerfile*":"dockerfile"
+  }
+}

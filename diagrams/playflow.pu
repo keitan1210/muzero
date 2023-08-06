@@ -1,0 +1,99 @@
+@startuml playflow
+autoactivate on
+
+actor User
+
+participant EnvRun
+participant EnvBase
+
+participant WorkerRun
+participant Worker
+
+participant Trainer
+participant Parameter
+participant RemoteMemory
+
+activate User
+User -> EnvRun: reset()
+    EnvRun -> EnvBase: reset()
+    return state,next_player_index
+return
+
+User -> WorkerRun: on_reset(player_index)
+    note right: init episode parameter
+return
+
+User -> EnvRun: render()
+    EnvRun -> EnvBase: rendering
+    return
+return
+
+loop episode
+    User -> WorkerRun: policy()
+        note right
+        env.next_player_index policy
+        end note
+
+        alt lst step
+            WorkerRun -> Worker: on_reset(WorkerRun)
+                note right
+                state= <color blue>encode(env.state)</color>
+                end note
+                Worker -> Worker: call_on_reset(WorkerRun)
+                return info
+            return info
+        else After the 2nd step
+            WorkerRun -> Worker: on_step(WorkerRun)
+                note right
+                next_state= <color blue>encode(env.state)</color>
+                end note
+                Worker -> Worker: call_on_step(WorkerRun)
+                    Worker -> RemoteMemory: add batchs
+                    return
+                return info
+            return info
+        end
+        WorkerRun -> Worker: policy(WorkerRun)
+            Worker -> Worker: call_policy(WorkerRun)
+                Worker -> Parameter: get parameter
+                return
+            return action
+        return action
+        note right
+        action= <color red>decode(action)</color>
+        end note
+    return action
+    User -> WorkerRun: render()
+        WorkerRun -> Worker: rendering
+        return
+    return
+    User -> EnvRun: step(action)
+        EnvRun -> EnvBase: step(action)
+        return state,reward,done,next_player_index
+    return
+    User -> WorkerRun: on_step(env)
+        note right
+        save step reward
+        end note
+        alt done
+            WorkerRun -> Worker: on_reset(env)
+            return
+        end
+    return
+
+    User -> Trainer: train
+        Trainer -> RemoteMemory: samples
+        return batchs
+        Trainer -> Parameter: update parameter
+        return
+    return info
+
+    User -> EnvRun: render()
+        EnvRun -> EnvBase: rendering
+        return
+    return
+
+end
+deactivate User
+
+@enduml

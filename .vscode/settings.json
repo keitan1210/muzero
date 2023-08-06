@@ -1,25 +1,25 @@
 {
-  "extensions.ignoreRecommendations":false,
-  "python.envFile":"${workspaceFolder}/.env",
+  "extensions.ignoreRecommendations":false, //推奨拡張機能を表示
+  "python.envFile":"${workspaceFolder}/.env", //環境変数設定
   
-  "python.linting.enabled":true,
-  "python.linting.pylintEnabled":false,
-  "python.linting.flake8Enabled":true,
-  "python.linting.lintOnSave":true,
+  "python.linting.enabled":true, //リンターの有効化
+  "python.linting.pylintEnabled":false, //defaultではpylintが有効よって、無効化
+  "python.linting.flake8Enabled":true, //flake8を有効化
+  "python.linting.lintOnSave":true, //ファイル保持時にリンター実行
   "python.linting.flake8Args":[
-    "--max-line-length=119",
-    "--ignore=E203",
+    "--max-line-length=119", //defaultは79、119はgit向け
+    "--ignore=E203", //E203 whitespace before ':'
   ],
   
   "python.formatting.provider":"black",
   "[python]":{
-    "editor.formatOnSave":true,
+    "editor.formatOnSave":true, //ファイル保持時にフォーマッタ実行
     "editor.codeActionsOnSave":{
       "source.organizeImports":true
     }
   },
   "python.formatting.blackArgs":[
-    "--line-length=119",
+    "--line-length=119", //defaultは79、119はgit向け
   ],
   
   "[lua]":{

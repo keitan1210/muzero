@@ -1,4 +1,7 @@
 {
+  //IntelliSenseを使用し、利用可能な属性を学べる。
+  //既存の属性の説明をホバーして表示
+  //詳細情報はhttps://go.microsoft.com/fwlink/?linkid=830387
   "version":"0.2.0",
   "configurations":[
     {

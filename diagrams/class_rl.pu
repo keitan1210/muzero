@@ -1,0 +1,88 @@
+@startuml class_rl
+enum RLTypes{
+    ANY
+    DISCRETE
+    CONTINUOUS
+}
+
+class EnvRun{}
+
+class WorkerRun{
+    on_reset(env)
+    policy() : action
+    on_step()
+    render()
+    state_encode(env_state) : rl_state
+    action_encode(env_action) : rl_action
+}
+WorkerRun - EnvRun
+
+note "Keeps run-time state.\nAbsorbs the difference with the environment." as WorkerRunMemo
+WorkerRun . WorkerRunMemo
+
+abstract WorkerBase{
+    config : RLConfig
+    parameter : RLParameter
+    remote_memory : RLRemoteMemory
+    on_reset(worker_run,env_run)
+    policy()
+    on_step()
+    render_terminal()
+    render_rgb_array()
+}
+WorkerBase -- WorkerRun
+
+abstract RLWorker{
+    call_on_reset()
+    call_policy()
+    call_on_step()
+}
+RLWorker -- WorkerBase
+
+note as RLWorkerMemo
+Arguments modified by implementation algorithm
+- DiscreteActionWorker
+- ContinuousActionWorker
+- etc..
+end note
+RLWorker <|- RLWorkerMemo
+
+abstract RLTrainer{
+    config : RLConfig
+    parameter : RLParameter
+    remote_memory : RLRemoteMemory
+    train()
+    get_train_count() : int
+}
+
+abstract RLRemoteMemory{
+    config : RLConfig
+    backup()
+    restore()
+}
+
+abstract RLParameter{
+    config : RLConfig
+    length() : int
+    restore()
+    backup()
+}
+
+abstract RLConfig{
+    getName() : str
+    action_type : RLTypes
+    observation_type : RLTypes
+}
+RLTypes .. RLConfig
+
+RLConfig --- WorkerBase
+RLConfig --- RLTrainer
+RLConfig -- RLParameter
+RLConfig -- RLRemoteMemory
+
+RLParameter -- WorkerBase
+RLParameter -- RLTrainer
+RLRemoteMemory -- WorkerBase
+RLRemoteMemory -- RLTrainer
+
+@enduml

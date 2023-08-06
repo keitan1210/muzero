@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  srl-min:
+    build:
+      dockerfile: ./dockerfile_min
+    volumes:
+      - ../:/code/
+    command: /bin/bash
+    tty: true

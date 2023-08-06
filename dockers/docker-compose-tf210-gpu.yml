@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  tf210-gpu:
+    build:
+      dockerfile: ./dockerfile_tf210_gpu
+    volumes:
+      - ../:/code/
+    command: /bin/bash
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

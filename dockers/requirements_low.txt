@@ -1,0 +1,27 @@
+numpy<1.19.0
+gym==0.22.0
+pyglet==1.4.0
+matplotlib==3.0.0
+opencv-python==3.4.2.*
+pandas==1.0.0
+Pillow==8.0.0
+pygame==2.1.0
+tensorflow==2.2.1
+# tensorflow-addons==0.10.0 # no support
+# tensorflow-probability==0.10.1 # 0.11.0 is requires TensorFlow
+torch==1.9.0 # nn.HuberLoss was introduces in PyTorch 1.9.0
+
+# If this call came from a _pb2.py file,your generated code is out of date and must be regenerated with protoc >= 3.19.0.
+# If you cannot immediately regenerate your protos,some other possible workarounds are:
+# 1. Downgrade the protobuf package to 3.20.x or lower.
+# 2. Set PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python (but this will use pure-Python parsing and will be much slower).
+# More information: https://developers.google.com/protocol-buffers/docs/news/2022-05-06#python-updates
+protobuf<=3.20.0
+
+# https://stackoverflow.com/questions/73929564/entrypoints-object-has-no-attribute-get-digital-ocean
+importlib-metadata<5.0
+
+# --- dev
+pytest==7.3.1
+black==23.3.0
+flake8==5.0.4
